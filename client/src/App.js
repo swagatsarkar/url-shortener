@@ -24,6 +24,16 @@ function App() {
     }
   };
 
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(shortUrl);
+
+      alert("Copied to clipboard!");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div style={{ padding: "40px" }}>
       <h1>URL Shortener</h1>
@@ -44,6 +54,7 @@ function App() {
         <div>
           <strong>Short URL:</strong>
           <p>{shortUrl}</p>
+          <button onClick={copyToClipboard}>Copy</button>
         </div>
       )}
     </div>
