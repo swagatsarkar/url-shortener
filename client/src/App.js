@@ -3,6 +3,7 @@ import { useState } from "react";
 function App() {
   const [url, setUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
+  const [copied, setCopied] = useState(false);
 
   const shortenUrl = async () => {
     try {
@@ -19,6 +20,7 @@ function App() {
       const data = await response.json();
 
       setShortUrl(`http://localhost:5000/${data.shortCode}`);
+      setCopied(false);
     } catch (error) {
       console.error(error);
     }
@@ -28,7 +30,11 @@ function App() {
     try {
       await navigator.clipboard.writeText(shortUrl);
 
-      alert("Copied to clipboard!");
+      setCopied(true);
+      setTimeout(() => {
+        setCopied(false);
+      }, 2000);
+      // alert("Copied to clipboard!");
     } catch (error) {
       console.log(error);
     }
@@ -54,7 +60,9 @@ function App() {
         <div>
           <strong>Short URL:</strong>
           <p>{shortUrl}</p>
-          <button onClick={copyToClipboard}>Copy</button>
+          <button onClick={copyToClipboard}>
+            {copied ? "Copied ✓" : "Copy"}
+          </button>
         </div>
       )}
     </div>
